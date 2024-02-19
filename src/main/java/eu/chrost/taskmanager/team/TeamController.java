@@ -5,6 +5,7 @@ import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
+import eu.chrost.taskmanager.user.UserFacade;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 class TeamController {
     private final TeamFacade teamFacade;
+    private final UserFacade userFacade;
 
     @GetMapping
     public ResponseEntity<List<TeamDto>> findAll() {
@@ -71,9 +73,10 @@ class TeamController {
 
     @PutMapping("/{id}/members")
     @Transactional
-    public ResponseEntity<Void> addTeamMembers(@PathVariable Long id, @RequestBody TeamMembersDto dto) {
+    public ResponseEntity<Void> addTeamMembers(@PathVariable long id, @RequestBody TeamMembersDto dto) {
         try {
-            teamFacade.addMembersToTeamWithId(id, dto);
+            teamFacade.addMembersToTeam(id, dto);
+            userFacade.addTeamToUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,11 +85,12 @@ class TeamController {
 
     @DeleteMapping("/{id}/members")
     @Transactional
-    public ResponseEntity<Void> removeTeamMembers(@PathVariable Long id, @RequestBody TeamMembersDto dto) {
+    public ResponseEntity<Void> removeTeamMembers(@PathVariable long id, @RequestBody TeamMembersDto dto) {
         try {
-            teamFacade.removeMembersFromTeamWithId(id ,dto);
+            teamFacade.removeMembersFromTeam(id, dto);
+            userFacade.removeTeamFromUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (TeamNotFoundException e) {
+        } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

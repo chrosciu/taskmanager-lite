@@ -66,6 +66,9 @@ Content-Type: application/json
   "userIds": [1]
 }
 
+### Get team
+GET http://localhost:8080/teams/1
+
 ### Delete team
 DELETE http://localhost:8080/teams/1
 

@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
+import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,17 +35,17 @@ class User {
     private UserRole userRole;
 
     @OneToMany
-    private List<SimpleTeamQueryDto> teams = new ArrayList<>();
+    private List<SimpleTeamQueryEntity> teams = new ArrayList<>();
 
-    public List<SimpleTeamQueryDto> getTeams() {
+    public List<SimpleTeamQueryEntity> getTeams() {
         return List.copyOf(teams);
     }
 
-    public void addToTeam(SimpleTeamQueryDto team) {
+    public void addToTeam(SimpleTeamQueryEntity team) {
         teams.add(team);
     }
 
-    public void removeFrom(SimpleTeamQueryDto team) {
+    public void removeFrom(SimpleTeamQueryEntity team) {
         teams.remove(team);
     }
 }
