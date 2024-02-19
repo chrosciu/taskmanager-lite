@@ -4,6 +4,8 @@ import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import eu.chrost.taskmanager.user.query.SimpleUserQueryDto;
+import eu.chrost.taskmanager.user.query.SimpleUserQueryDtoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class UserFacade {
     private final UserRepository userRepository;
+    private final SimpleUserQueryDtoRepository simpleUserQueryDtoRepository;
 
     public List<UserDto> getAllUsers() {
         List<UserDto> usersDtos = new ArrayList<>();
@@ -55,6 +58,10 @@ public class UserFacade {
             userDto.setUserRole(userRole.name());
         }
         return userDto;
+    }
+
+    public SimpleUserQueryDto getSimpleUserWithId(long id) {
+        return simpleUserQueryDtoRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public long createNewUserAndReturnItsId(UserDto userDto) throws UserAlreadyExistsException {

@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = "teams")
-public class User {
+class User {
     @Id
     @GeneratedValue
     private Long id;

@@ -5,10 +5,9 @@ import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
-import eu.chrost.taskmanager.user.User;
 import eu.chrost.taskmanager.user.UserFacade;
-import eu.chrost.taskmanager.user.UserRepository;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import eu.chrost.taskmanager.user.query.SimpleUserQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class TeamFacade {
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
     private final UserFacade userFacade;
 
     public List<TeamDto> getAllTeams() {
@@ -57,7 +55,7 @@ public class TeamFacade {
         }
 
         dto.setDescription(team.getDescription());
-        dto.setUserIds(team.getMembers().stream().map(User::getId).collect(toList()));
+        dto.setUserIds(team.getMembers().stream().map(SimpleUserQueryDto::getId).collect(toList()));
 
         return dto;
     }
@@ -105,10 +103,9 @@ public class TeamFacade {
 
         for (long userId : teamMembersDto.getUserIds()) {
             userFacade.addUserWithIdToGivenTeam(userId, simpleTeam);
+            SimpleUserQueryDto simpleUser = userFacade.getSimpleUserWithId(userId);
+            team.addMember(simpleUser);
         }
-
-        List<User> users = findUsers(teamMembersDto);
-        users.forEach(team::addMember);
         teamRepository.save(team);
     }
 
@@ -118,10 +115,9 @@ public class TeamFacade {
 
         for (long userId : teamMembersDto.getUserIds()) {
             userFacade.removeUserWithIdFromGivenTeam(userId, simpleTeam);
+            SimpleUserQueryDto simpleUser = userFacade.getSimpleUserWithId(userId);
+            team.removeMember(simpleUser);
         }
-
-        Iterable<User> users = findUsers(teamMembersDto);
-        users.forEach(team::removeMember);
         teamRepository.save(team);
     }
 
@@ -133,9 +129,5 @@ public class TeamFacade {
         }
 
         return team.get();
-    }
-
-    private List<User> findUsers(TeamMembersDto dto) {
-        return StreamSupport.stream(userRepository.findAllById(dto.getUserIds()).spliterator(), false).toList();
     }
 }
