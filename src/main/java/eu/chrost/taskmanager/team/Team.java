@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.user.query.SimpleUserQueryDto;
+import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,17 +32,17 @@ class Team {
     private String description;
 
     @OneToMany
-    private List<SimpleUserQueryDto> members = new ArrayList<>();
+    private List<SimpleUserQueryEntity> members = new ArrayList<>();
 
-    public List<SimpleUserQueryDto> getMembers() {
+    public List<SimpleUserQueryEntity> getMembers() {
         return List.copyOf(members);
     }
 
-    public void addMember(SimpleUserQueryDto user) {
+    public void addMember(SimpleUserQueryEntity user) {
         members.add(user);
     }
 
-    public void removeMember(SimpleUserQueryDto user) {
+    public void removeMember(SimpleUserQueryEntity user) {
         members.remove(user);
     }
 }

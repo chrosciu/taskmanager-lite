@@ -4,10 +4,8 @@ import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
-import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
-import eu.chrost.taskmanager.user.UserFacade;
+import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
-import eu.chrost.taskmanager.user.query.SimpleUserQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class TeamFacade {
     private final TeamRepository teamRepository;
-    private final UserFacade userFacade;
 
     public List<TeamDto> getAllTeams() {
         List<TeamDto> teams = StreamSupport.stream(teamRepository.findAll().spliterator(), false)
@@ -55,7 +52,7 @@ public class TeamFacade {
         }
 
         dto.setDescription(team.getDescription());
-        dto.setUserIds(team.getMembers().stream().map(SimpleUserQueryDto::getId).collect(toList()));
+        dto.setUserIds(team.getMembers().stream().map(SimpleUserQueryEntity::getId).collect(toList()));
 
         return dto;
     }
@@ -97,26 +94,20 @@ public class TeamFacade {
         teamRepository.save(team);
     }
 
-    public void addMembersToTeamWithId(long id, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
-        Team team = getTeamById(id);
-        SimpleTeamQueryDto simpleTeam = new SimpleTeamQueryDto(team.getId());
-
+    public void addMembersToTeam(long teamId, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
+        Team team = getTeamById(teamId);
         for (long userId : teamMembersDto.getUserIds()) {
-            userFacade.addUserWithIdToGivenTeam(userId, simpleTeam);
-            SimpleUserQueryDto simpleUser = userFacade.getSimpleUserWithId(userId);
-            team.addMember(simpleUser);
+            SimpleUserQueryEntity user = new SimpleUserQueryEntity(userId);
+            team.addMember(user);
         }
         teamRepository.save(team);
     }
 
-    public void removeMembersFromTeamWithId(long id, TeamMembersDto teamMembersDto) throws TeamNotFoundException {
-        Team team = getTeamById(id);
-        SimpleTeamQueryDto simpleTeam = new SimpleTeamQueryDto(team.getId());
-
+    public void removeMembersFromTeam(long teamId, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
+        Team team = getTeamById(teamId);
         for (long userId : teamMembersDto.getUserIds()) {
-            userFacade.removeUserWithIdFromGivenTeam(userId, simpleTeam);
-            SimpleUserQueryDto simpleUser = userFacade.getSimpleUserWithId(userId);
-            team.removeMember(simpleUser);
+            SimpleUserQueryEntity user = new SimpleUserQueryEntity(userId);
+            team.removeMember(user);
         }
         teamRepository.save(team);
     }
