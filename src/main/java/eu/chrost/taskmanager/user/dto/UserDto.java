@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.dto;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ public class UserDto {
     private String lastName;
     private String login;
     private String password;
-    private String teamRole;
+    private String userRole;
 }
