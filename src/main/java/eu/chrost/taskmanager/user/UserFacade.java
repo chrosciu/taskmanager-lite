@@ -1,5 +1,6 @@
 package eu.chrost.taskmanager.user;
 
+import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
@@ -95,6 +96,18 @@ public class UserFacade {
     public void deleteUserWithId(long id) throws UserNotFoundException {
         User user = getUserById(id);
         userRepository.delete(user);
+    }
+
+    public void addUserWithIdToGivenTeam(long id, SimpleTeamQueryDto team) {
+        User user = getUserById(id);
+        user.addToTeam(team);
+        userRepository.save(user);
+    }
+
+    public void removeUserWithIdFromGivenTeam(long id, SimpleTeamQueryDto team) {
+        User user = getUserById(id);
+        user.removeFrom(team);
+        userRepository.save(user);
     }
 
     private User getUserById(long id) {
