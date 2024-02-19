@@ -4,7 +4,9 @@ import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
+import eu.chrost.taskmanager.team.query.SimpleTeamQueryDto;
 import eu.chrost.taskmanager.user.User;
+import eu.chrost.taskmanager.user.UserFacade;
 import eu.chrost.taskmanager.user.UserRepository;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 public class TeamFacade {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
+    private final UserFacade userFacade;
 
     public List<TeamDto> getAllTeams() {
         List<TeamDto> teams = StreamSupport.stream(teamRepository.findAll().spliterator(), false)
@@ -98,34 +101,28 @@ public class TeamFacade {
 
     public void addMembersToTeamWithId(long id, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
         Team team = getTeamById(id);
-        List<User> users = findUsers(teamMembersDto);
+        SimpleTeamQueryDto simpleTeam = new SimpleTeamQueryDto(team.getId());
 
-        if (users.size() != teamMembersDto.getUserIds().size()) {
-            throw new UserNotFoundException();
+        for (long userId : teamMembersDto.getUserIds()) {
+            userFacade.addUserWithIdToGivenTeam(userId, simpleTeam);
         }
 
-        users.forEach(user -> {
-            user.addToTeam(team);
-            team.addMember(user);
-        });
-
+        List<User> users = findUsers(teamMembersDto);
+        users.forEach(team::addMember);
         teamRepository.save(team);
-        userRepository.saveAll(users);
     }
 
     public void removeMembersFromTeamWithId(long id, TeamMembersDto teamMembersDto) throws TeamNotFoundException {
         Team team = getTeamById(id);
+        SimpleTeamQueryDto simpleTeam = new SimpleTeamQueryDto(team.getId());
+
+        for (long userId : teamMembersDto.getUserIds()) {
+            userFacade.removeUserWithIdFromGivenTeam(userId, simpleTeam);
+        }
+
         Iterable<User> users = findUsers(teamMembersDto);
-
-        users.forEach(user -> {
-            if (user.getTeams().contains(team)) {
-                user.removeFrom(team);
-                team.removeMember(user);
-            }
-        });
-
+        users.forEach(team::removeMember);
         teamRepository.save(team);
-        userRepository.saveAll(users);
     }
 
     private Team getTeamById(long id) {

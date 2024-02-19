@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Team {
+class Team {
     @Id
     @GeneratedValue
     private Long id;
