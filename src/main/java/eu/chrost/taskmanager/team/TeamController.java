@@ -1,14 +1,8 @@
-package eu.chrost.taskmanager.api.rest;
+package eu.chrost.taskmanager.team;
 
 
-import eu.chrost.taskmanager.dto.TeamDto;
-import eu.chrost.taskmanager.dto.TeamMembersDto;
-import eu.chrost.taskmanager.exception.TeamNotFoundException;
-import eu.chrost.taskmanager.model.embedded.Codename;
-import eu.chrost.taskmanager.model.entities.Team;
-import eu.chrost.taskmanager.model.entities.User;
-import eu.chrost.taskmanager.repository.TeamRepository;
-import eu.chrost.taskmanager.repository.UserRepository;
+import eu.chrost.taskmanager.user.User;
+import eu.chrost.taskmanager.user.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

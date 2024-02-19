@@ -1,7 +1,6 @@
-package eu.chrost.taskmanager.model.entities;
+package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.model.embedded.UserName;
-import eu.chrost.taskmanager.model.enums.TeamRole;
+import eu.chrost.taskmanager.team.Team;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

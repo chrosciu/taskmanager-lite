@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.dto;
+package eu.chrost.taskmanager.team;
 
 import java.util.List;
 

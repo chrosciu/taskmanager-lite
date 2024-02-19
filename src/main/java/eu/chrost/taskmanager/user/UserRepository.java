@@ -1,6 +1,5 @@
-package eu.chrost.taskmanager.repository;
+package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.model.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

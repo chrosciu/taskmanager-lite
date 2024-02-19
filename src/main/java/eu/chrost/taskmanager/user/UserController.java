@@ -1,12 +1,6 @@
-package eu.chrost.taskmanager.api.rest;
+package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.dto.UserDto;
-import eu.chrost.taskmanager.exception.UserNotFoundException;
-import eu.chrost.taskmanager.model.embedded.UserName;
-import eu.chrost.taskmanager.model.entities.Team;
-import eu.chrost.taskmanager.model.entities.User;
-import eu.chrost.taskmanager.model.enums.TeamRole;
-import eu.chrost.taskmanager.repository.UserRepository;
+import eu.chrost.taskmanager.team.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.model.embedded;
+package eu.chrost.taskmanager.user;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

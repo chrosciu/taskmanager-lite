@@ -1,6 +1,6 @@
-package eu.chrost.taskmanager.model.entities;
+package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.model.embedded.Codename;
+import eu.chrost.taskmanager.user.User;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
