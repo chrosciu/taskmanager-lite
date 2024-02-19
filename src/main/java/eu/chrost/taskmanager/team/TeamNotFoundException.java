@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.exception;
+package eu.chrost.taskmanager.team;
 
 public class TeamNotFoundException extends RuntimeException {
 }

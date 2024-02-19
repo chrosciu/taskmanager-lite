@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.model.enums;
+package eu.chrost.taskmanager.user;
 
 public enum TeamRole {
     DEVELOPER,
