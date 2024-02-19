@@ -40,9 +40,9 @@ class UserController {
             userDto.setLogin(user.getLogin());
             userDto.setPassword(user.getPassword());
 
-            TeamRole teamRole = user.getTeamRole();
-            if (teamRole != null) {
-                userDto.setTeamRole(teamRole.name());
+            UserRole userRole = user.getUserRole();
+            if (userRole != null) {
+                userDto.setTeamRole(userRole.name());
             }
 
             usersDtos.add(userDto);
@@ -63,9 +63,9 @@ class UserController {
             userDto.setLogin(user.getLogin());
             userDto.setPassword(user.getPassword());
 
-            TeamRole teamRole = user.getTeamRole();
-            if (teamRole != null) {
-                userDto.setTeamRole(teamRole.name());
+            UserRole userRole = user.getUserRole();
+            if (userRole != null) {
+                userDto.setTeamRole(userRole.name());
             }
 
             return new ResponseEntity<>(userDto, HttpStatus.OK);
@@ -80,7 +80,7 @@ class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             User user = new User();
-            user.setTeamRole(TeamRole.valueOf(userDto.getTeamRole()));
+            user.setUserRole(UserRole.valueOf(userDto.getTeamRole()));
             UserName userName = new UserName();
             userName.setFirstName(userDto.getFirstName());
             userName.setLastName(userDto.getLastName());
@@ -119,7 +119,7 @@ class UserController {
         }
 
         if (userDto.getTeamRole() != null) {
-            user.setTeamRole(TeamRole.valueOf(userDto.getTeamRole()));
+            user.setUserRole(UserRole.valueOf(userDto.getTeamRole()));
         }
         
         User updated = userRepository.save(user);
@@ -131,9 +131,9 @@ class UserController {
         response.setLogin(updated.getLogin());
         response.setPassword(updated.getPassword());
 
-        TeamRole teamRole = updated.getTeamRole();
-        if (teamRole != null) {
-            response.setTeamRole(teamRole.name());
+        UserRole userRole = updated.getUserRole();
+        if (userRole != null) {
+            response.setTeamRole(userRole.name());
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);

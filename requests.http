@@ -8,7 +8,7 @@ Content-Type: application/json
   "lastName": "Doe",
   "login": "johndoe",
   "password": "jd_password",
-  "teamRole": "DEVELOPER"
+  "userRole": "DEVELOPER"
 }
 
 ### Get all users
@@ -22,7 +22,7 @@ PUT http://localhost:8080/users/1
 Content-Type: application/json
 
 {
-  "teamRole": "TESTER"
+  "userRole": "TESTER"
 }
 
 ### Create team
