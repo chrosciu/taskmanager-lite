@@ -1,8 +1,12 @@
 package eu.chrost.taskmanager.team;
 
 
-import eu.chrost.taskmanager.user.User;
-import eu.chrost.taskmanager.user.UserRepository;
+import eu.chrost.taskmanager.team.dto.TeamDto;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
+import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
+import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
+import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,62 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/teams")
+@RequiredArgsConstructor
 class TeamController {
-    private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
-
-    public TeamController(TeamRepository teamRepository, UserRepository userRepository) {
-        this.teamRepository = teamRepository;
-        this.userRepository = userRepository;
-    }
+    private final TeamFacade teamFacade;
 
     @GetMapping
     public ResponseEntity<List<TeamDto>> findAll() {
-        List<TeamDto> teams = StreamSupport.stream(teamRepository.findAll().spliterator(), false)
-                .map(team -> {
-                    TeamDto dto = new TeamDto();
-                    dto.setId(team.getId());
-                    dto.setName(team.getName());
-
-                    if (team.getCodename() != null) {
-                        dto.setCodenameShort(team.getCodename().getShortName());
-                        dto.setCodenameFull(team.getCodename().getFullName());
-                    }
-
-                    dto.setDescription(team.getDescription());
-
-                    return dto;
-                })
-                .collect(toList());
-
+        List<TeamDto> teams = teamFacade.getAllTeams();
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @Transactional
-    public ResponseEntity<TeamDto> findById(@PathVariable Long id) {
+    public ResponseEntity<TeamDto> findById(@PathVariable long id) {
         try {
-            Team team = getTeamById(id);
-            TeamDto dto = new TeamDto();
-            dto.setId(team.getId());
-            dto.setName(team.getName());
-
-            if (team.getCodename() != null) {
-                dto.setCodenameShort(team.getCodename().getShortName());
-                dto.setCodenameFull(team.getCodename().getFullName());
-            }
-
-            dto.setDescription(team.getDescription());
-            dto.setUserIds(team.getMembers().stream().map(User::getId).collect(toList()));
-
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            TeamDto team = teamFacade.getTeamWithId(id);
+            return new ResponseEntity<>(team, HttpStatus.OK);
         } catch (TeamNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -81,81 +48,34 @@ class TeamController {
 
     @PostMapping
     public ResponseEntity<Void> createTeam(@RequestBody TeamDto teamDto, UriComponentsBuilder uriComponentsBuilder) {
-        if (teamRepository.findByName(teamDto.getName()).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            Team team = new Team();
-            team.setName(teamDto.getName());
-            Team saved = teamRepository.save(team);
-
+        try {
+            long createdTeamId = teamFacade.createTeamAndReturnItsId(teamDto);
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/teams/{id}").buildAndExpand(saved.getId()).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/teams/{id}").buildAndExpand(createdTeamId).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        } catch (TeamAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TeamDto> updateTeam(@PathVariable Long id, @RequestBody TeamDto teamDto) {
-        Team team;
-
+    public ResponseEntity<TeamDto> updateTeam(@PathVariable long id, @RequestBody TeamDto teamDto) {
         try {
-            team = getTeamById(id);
-        } catch (TeamNotFoundException exception) {
+            teamFacade.updateTeamWithId(id, teamDto);
+            TeamDto updatedTeam = teamFacade.getTeamWithId(id);
+            return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
+        } catch (TeamNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if (teamDto.getName() != null) {
-            team.setName(teamDto.getName());
-        }
-
-        if (teamDto.getCodenameShort() != null && teamDto.getCodenameFull() != null) {
-            Codename codename = new Codename();
-            codename.setShortName(teamDto.getCodenameShort());
-            codename.setFullName(teamDto.getCodenameFull());
-            team.setCodename(codename);
-        }
-
-        if (teamDto.getDescription() != null) {
-            team.setDescription(teamDto.getDescription());
-        }
-
-        Team updated = teamRepository.save(team);
-
-        TeamDto dto = new TeamDto();
-        dto.setId(updated.getId());
-        dto.setName(updated.getName());
-        if (updated.getCodename() != null) {
-            dto.setCodenameShort(updated.getCodename().getShortName());
-            dto.setCodenameFull(updated.getCodename().getFullName());
-        }
-
-        dto.setDescription(updated.getDescription());
-
-        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}/members")
     @Transactional
     public ResponseEntity<Void> addTeamMembers(@PathVariable Long id, @RequestBody TeamMembersDto dto) {
         try {
-            Team team = getTeamById(id);
-            List<User> users = findUsers(dto);
-
-            if (users.size() != dto.getUserIds().size()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            users.forEach(user -> {
-                user.addToTeam(team);
-                team.addMember(user);
-            });
-
-            teamRepository.save(team);
-            userRepository.saveAll(users);
-
+            teamFacade.addMembersToTeamWithId(id, dto);
             return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (TeamNotFoundException exception) {
+        } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -164,51 +84,22 @@ class TeamController {
     @Transactional
     public ResponseEntity<Void> removeTeamMembers(@PathVariable Long id, @RequestBody TeamMembersDto dto) {
         try {
-            Team team = getTeamById(id);
-            Iterable<User> users = findUsers(dto);
-
-            users.forEach(user -> {
-                if (user.getTeams().contains(team)) {
-                    user.removeFrom(team);
-                    team.removeMember(user);
-                }
-            });
-
-            teamRepository.save(team);
-            userRepository.saveAll(users);
-
+            teamFacade.removeMembersFromTeamWithId(id ,dto);
             return new ResponseEntity<>(HttpStatus.OK);
-
-        } catch (TeamNotFoundException exception) {
+        } catch (TeamNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    private List<User> findUsers(TeamMembersDto dto) {
-        return StreamSupport.stream(userRepository.findAllById(dto.getUserIds()).spliterator(), false).toList();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
-        Team team;
-
+    public ResponseEntity<Void> deleteTeam(@PathVariable long id) {
         try {
-            team = getTeamById(id);
+            teamFacade.deleteTeamWithId(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (TeamNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        teamRepository.delete(team);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private Team getTeamById(Long id) {
-        Optional<Team> team = teamRepository.findById(id);
 
-        if (team.isEmpty()) {
-            throw new TeamNotFoundException();
-        }
-
-        return team.get();
-    }
 }
