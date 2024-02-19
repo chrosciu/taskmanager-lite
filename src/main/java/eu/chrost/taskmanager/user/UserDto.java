@@ -1,10 +1,8 @@
 package eu.chrost.taskmanager.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class UserDto {
     private Long id;
     private String firstName;

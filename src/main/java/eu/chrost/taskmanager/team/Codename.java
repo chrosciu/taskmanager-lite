@@ -1,13 +1,9 @@
 package eu.chrost.taskmanager.team;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-public class Codename {
+@Data
+class Codename {
     private String shortName;
     private String fullName;
 }

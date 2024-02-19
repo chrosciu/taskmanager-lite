@@ -1,13 +1,9 @@
 package eu.chrost.taskmanager.user;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-public class UserName {
+@Data
+class UserName {
     private String firstName;
     private String lastName;
 }

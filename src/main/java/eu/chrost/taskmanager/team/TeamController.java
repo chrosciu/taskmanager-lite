@@ -25,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/teams")
-public class TeamController {
+class TeamController {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 

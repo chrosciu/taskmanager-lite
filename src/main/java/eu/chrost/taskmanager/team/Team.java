@@ -34,10 +34,6 @@ public class Team {
     @OneToMany
     private List<User> members = new ArrayList<>();
 
-    public void setMembers(List<User> members) {
-        this.members = List.copyOf(members);
-    }
-
     public List<User> getMembers() {
         return List.copyOf(members);
     }
