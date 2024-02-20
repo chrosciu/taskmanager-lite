@@ -42,7 +42,7 @@ class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TeamFullDto> findById(@PathVariable long id) {
+    public ResponseEntity<TeamFullDto> findById(@PathVariable("id") long id) {
         Optional<TeamFullDto> teamFullDto = teamQueryRepository.findDtoById(id);
         return teamFullDto
                 .map(fullDto -> new ResponseEntity<>(fullDto, HttpStatus.OK))
@@ -64,7 +64,7 @@ class TeamController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<TeamFullDto> updateTeam(@PathVariable long id, @RequestBody TeamDto teamDto) {
+    public ResponseEntity<TeamFullDto> updateTeam(@PathVariable("id") long id, @RequestBody TeamDto teamDto) {
         try {
             teamFacade.updateTeamWithId(id, teamDto);
             TeamFullDto updatedTeam = teamQueryRepository.findDtoById(id).get();
@@ -76,7 +76,7 @@ class TeamController {
 
     @PutMapping("/{id}/members")
     @Transactional
-    public ResponseEntity<Void> addTeamMembers(@PathVariable long id, @RequestBody TeamMembersDto dto) {
+    public ResponseEntity<Void> addTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.addMembersToTeam(id, dto);
             userFacade.addTeamToUsersTeams(dto, id);
@@ -88,7 +88,7 @@ class TeamController {
 
     @DeleteMapping("/{id}/members")
     @Transactional
-    public ResponseEntity<Void> removeTeamMembers(@PathVariable long id, @RequestBody TeamMembersDto dto) {
+    public ResponseEntity<Void> removeTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.removeMembersFromTeam(id, dto);
             userFacade.removeTeamFromUsersTeams(dto, id);
@@ -100,7 +100,7 @@ class TeamController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> deleteTeam(@PathVariable long id) {
+    public ResponseEntity<Void> deleteTeam(@PathVariable("id") long id) {
         try {
             teamFacade.deleteTeamWithId(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -108,6 +108,4 @@ class TeamController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
