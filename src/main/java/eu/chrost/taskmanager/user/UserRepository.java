@@ -1,11 +1,19 @@
 package eu.chrost.taskmanager.user;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-interface UserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByUserNameFirstNameAndUserNameLastName(String firstName, String lastName);
+interface UserRepository extends Repository<User, Long> {
+
+    User save(User user);
+
+    void delete(User user);
+
+    Optional<User> findById(long id);
+
+    List<User> findAll();
+
+    boolean existsByUserNameFirstNameAndUserNameLastName(String firstName, String lastName);
 }

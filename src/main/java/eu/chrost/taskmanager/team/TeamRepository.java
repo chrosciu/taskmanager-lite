@@ -1,11 +1,18 @@
 package eu.chrost.taskmanager.team;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-interface TeamRepository extends CrudRepository<Team, Long> {
-    Optional<Team> findByName(String name);
+interface TeamRepository extends Repository<Team, Long> {
+    Team save(Team team);
+
+    void delete(Team team);
+
+    Optional<Team> findById(long id);
+
+    List<Team> findAll();
+
+    boolean existsByName(String name);
 }
