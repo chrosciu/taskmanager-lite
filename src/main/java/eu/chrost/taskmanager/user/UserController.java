@@ -1,12 +1,15 @@
 package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.user.dto.UserDto;
+import eu.chrost.taskmanager.user.dto.UserFullDto;
+import eu.chrost.taskmanager.user.dto.UserShortDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,24 +27,22 @@ import java.util.List;
 @RequiredArgsConstructor
 class UserController {
     private final UserFacade userFacade;
+    private final UserQueryRepository userQueryRepository;
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> usersDtos = userFacade.getAllUsers();
-        return new ResponseEntity<>(usersDtos, HttpStatus.OK);
+    public ResponseEntity<List<UserShortDto>> getAllUsers() {
+        return new ResponseEntity<>(userQueryRepository.findBy(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
-        try {
-            UserDto userDto = userFacade.getUserWithId(id);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
-        } catch (UserNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UserFullDto> getUser(@PathVariable("id") long id) {
+        return userQueryRepository.findDtoById(id)
+                .map(u -> new ResponseEntity<>(u, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
         try {
             long createdUserId = userFacade.createNewUserAndReturnItsId(userDto);
@@ -54,10 +55,11 @@ class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+    @Transactional
+    public ResponseEntity<UserFullDto> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         try {
             userFacade.updateUserWithId(id, userDto);
-            UserDto updatedUserDto = userFacade.getUserWithId(id);
+            UserFullDto updatedUserDto = userQueryRepository.findDtoById(id).get();
             return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -65,7 +67,8 @@ class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+    @Transactional
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
         try {
             userFacade.deleteUserWithId(id);
             return new ResponseEntity<>(HttpStatus.OK);
