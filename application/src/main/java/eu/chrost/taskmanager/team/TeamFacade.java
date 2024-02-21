@@ -4,7 +4,7 @@ import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
-import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
+import eu.chrost.taskmanager.user.dto.SimpleUser;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class TeamFacade {
     public void addMembersToTeam(long teamId, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
         Team team = getTeamById(teamId);
         for (long userId : teamMembersDto.getUserIds()) {
-            SimpleUserQueryEntity user = new SimpleUserQueryEntity(userId);
+            SimpleUser user = new SimpleUser(userId);
             team.addMember(user);
         }
         teamRepository.save(team);
@@ -66,7 +66,7 @@ public class TeamFacade {
     public void removeMembersFromTeam(long teamId, TeamMembersDto teamMembersDto) throws TeamNotFoundException, UserNotFoundException {
         Team team = getTeamById(teamId);
         for (long userId : teamMembersDto.getUserIds()) {
-            SimpleUserQueryEntity user = new SimpleUserQueryEntity(userId);
+            SimpleUser user = new SimpleUser(userId);
             team.removeMember(user);
         }
         teamRepository.save(team);

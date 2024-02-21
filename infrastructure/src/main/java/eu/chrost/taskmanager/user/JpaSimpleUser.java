@@ -1,5 +1,4 @@
-package eu.chrost.taskmanager.user.dto;
-
+package eu.chrost.taskmanager.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,7 +16,7 @@ import org.hibernate.annotations.Immutable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class SimpleUserQueryEntity {
+public class JpaSimpleUser {
     @Id
     private long id;
 }
