@@ -11,11 +11,23 @@ Content-Type: application/json
   "userRole": "DEVELOPER"
 }
 
+> {%
+    client.assert(response.status === 201);
+%}
+
 ### Get all users
 GET http://localhost:8080/users
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get users
 GET http://localhost:8080/users/1
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Update user
 PUT http://localhost:8080/users/1
@@ -25,6 +37,10 @@ Content-Type: application/json
   "userRole": "TESTER"
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Create team
 POST http://localhost:8080/teams
 Content-Type: application/json
@@ -33,11 +49,23 @@ Content-Type: application/json
   "name": "Wajchowi"
 }
 
+> {%
+    client.assert(response.status === 201);
+%}
+
 ### Get all teams
 GET http://localhost:8080/teams
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get team
 GET http://localhost:8080/teams/1
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Update team
 PUT http://localhost:8080/teams/1
@@ -47,6 +75,10 @@ Content-Type: application/json
   "name": "Druciarze"
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Add team members
 PUT http://localhost:8080/teams/1/members
 Content-Type: application/json
@@ -55,8 +87,16 @@ Content-Type: application/json
   "userIds": [1]
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get team
 GET http://localhost:8080/teams/1
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Delete team members
 DELETE http://localhost:8080/teams/1/members
@@ -66,13 +106,29 @@ Content-Type: application/json
   "userIds": [1]
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get team
 GET http://localhost:8080/teams/1
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Delete team
 DELETE http://localhost:8080/teams/1
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Delete user
 DELETE http://localhost:8080/users/1
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 
