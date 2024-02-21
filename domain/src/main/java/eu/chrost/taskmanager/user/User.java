@@ -1,55 +1,36 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import eu.chrost.taskmanager.team.dto.SimpleTeam;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-@Setter
-@Getter
-@EqualsAndHashCode(exclude = "teams")
+@Data
 class User {
-    @Id
-    @GeneratedValue
     private Long id;
     private String login;
     private String password;
 
-    @Embedded
     private UserName userName;
 
-    @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @OneToMany
-    private List<SimpleTeamQueryEntity> teams = new ArrayList<>();
+    private List<SimpleTeam> teams = new ArrayList<>();
 
-    public List<SimpleTeamQueryEntity> getTeams() {
+    public List<SimpleTeam> getTeams() {
         return List.copyOf(teams);
     }
 
-    public void addToTeam(SimpleTeamQueryEntity team) {
+    public void addToTeam(SimpleTeam team) {
         teams.add(team);
     }
 
-    public void removeFrom(SimpleTeamQueryEntity team) {
+    public void removeFrom(SimpleTeam team) {
         teams.remove(team);
     }
 
     public List<Long> getTeamIds() {
-        return teams.stream().map(SimpleTeamQueryEntity::getId).toList();
+        return teams.stream().map(SimpleTeam::id).toList();
     }
 }

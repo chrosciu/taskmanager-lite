@@ -7,7 +7,7 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserQueryRepository extends Repository<User, Long> {
+public interface UserQueryRepository {
     List<UserShortDto> findBy();
 
     Optional<UserFullDto> findDtoById(long id);
