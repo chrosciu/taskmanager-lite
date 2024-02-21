@@ -20,10 +20,11 @@ import java.util.stream.Collectors;
 @Table(name = "teams")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 class JpaTeam {
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String name;
@@ -50,7 +51,7 @@ class JpaTeam {
         return jpaTeam;
     }
 
-    public Team toTeam() {
+    Team toTeam() {
         Team team = new Team();
         team.setId(id);
         team.setName(name);

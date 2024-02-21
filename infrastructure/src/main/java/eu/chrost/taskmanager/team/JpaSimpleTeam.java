@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.team.dto;
+package eu.chrost.taskmanager.team;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +16,7 @@ import org.hibernate.annotations.Immutable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class SimpleTeamQueryEntity {
+public class JpaSimpleTeam {
     @Id
     private long id;
 }
