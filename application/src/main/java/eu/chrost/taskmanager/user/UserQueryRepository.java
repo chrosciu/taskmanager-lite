@@ -1,7 +1,6 @@
 package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.user.dto.UserQueryDto;
-import org.springframework.data.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;

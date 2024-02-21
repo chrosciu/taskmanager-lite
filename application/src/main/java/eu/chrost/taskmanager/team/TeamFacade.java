@@ -7,11 +7,9 @@ import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import eu.chrost.taskmanager.user.dto.SimpleUser;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
 public class TeamFacade {
     private final TeamRepository teamRepository;

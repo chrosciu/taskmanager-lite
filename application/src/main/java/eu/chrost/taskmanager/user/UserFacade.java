@@ -7,11 +7,9 @@ import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @RequiredArgsConstructor
 public class UserFacade {
     private final UserRepository userRepository;
