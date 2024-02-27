@@ -65,6 +65,7 @@ GET http://localhost:8080/teams/1
 
 > {%
     client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 0);
 %}
 
 ### Update team
@@ -96,6 +97,8 @@ GET http://localhost:8080/teams/1
 
 > {%
     client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 1);
+    client.assert(response.body.userIds[0] === 1);
 %}
 
 ### Delete team members
@@ -115,6 +118,7 @@ GET http://localhost:8080/teams/1
 
 > {%
     client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 0);
 %}
 
 ### Delete team
