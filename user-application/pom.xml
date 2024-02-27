@@ -9,12 +9,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>domain</artifactId>
+    <artifactId>user-application</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>eu.chrost</groupId>
-            <artifactId>commons</artifactId>
+            <artifactId>user-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

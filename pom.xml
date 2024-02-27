@@ -10,8 +10,10 @@
   <description>Task Manager (lite version)</description>
   <modules>
     <module>commons</module>
-    <module>domain</module>
-    <module>application</module>
+    <module>team-domain</module>
+    <module>user-domain</module>
+    <module>team-application</module>
+    <module>user-application</module>
     <module>infrastructure</module>
   </modules>
   <properties>
