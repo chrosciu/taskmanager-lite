@@ -9,6 +9,6 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>taskmanager-lite-commons</artifactId>
+    <artifactId>commons</artifactId>
 
 </project>
