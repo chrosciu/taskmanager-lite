@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.user;
 
+import eu.chrost.taskmanager.commons.SimpleEntity;
 import eu.chrost.taskmanager.team.JpaSimpleTeam;
-import eu.chrost.taskmanager.team.dto.SimpleTeam;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -58,7 +58,7 @@ class JpaUser {
         user.setPassword(password);
         user.setUserName(userName);
         user.setUserRole(userRole);
-        user.setTeams(teams.stream().map(t -> new SimpleTeam(t.getId())).collect(Collectors.toCollection(ArrayList::new)));
+        user.setTeams(teams.stream().map(t -> new SimpleEntity(t.getId())).collect(Collectors.toCollection(ArrayList::new)));
         return user;
     }
 }

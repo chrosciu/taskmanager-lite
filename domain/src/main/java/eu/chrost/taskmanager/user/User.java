@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.dto.SimpleTeam;
+import eu.chrost.taskmanager.commons.SimpleEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -16,17 +16,17 @@ class User {
 
     private UserRole userRole;
 
-    private List<SimpleTeam> teams = new ArrayList<>();
+    private List<SimpleEntity> teams = new ArrayList<>();
 
-    public List<SimpleTeam> getTeams() {
+    public List<SimpleEntity> getTeams() {
         return List.copyOf(teams);
     }
 
-    public void addToTeam(SimpleTeam team) {
+    public void addToTeam(SimpleEntity team) {
         teams.add(team);
     }
 
-    public void removeFrom(SimpleTeam team) {
+    public void removeFrom(SimpleEntity team) {
         teams.remove(team);
     }
 }

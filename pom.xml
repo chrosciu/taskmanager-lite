@@ -9,6 +9,7 @@
   <name>taskmanager-lite</name>
   <description>Task Manager (lite version)</description>
   <modules>
+    <module>commons</module>
     <module>domain</module>
     <module>application</module>
     <module>infrastructure</module>

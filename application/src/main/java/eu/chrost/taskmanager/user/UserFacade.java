@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.dto.SimpleTeam;
+import eu.chrost.taskmanager.commons.SimpleEntity;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import eu.chrost.taskmanager.user.dto.UserDto;
@@ -60,7 +60,7 @@ public class UserFacade {
     public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException, TeamNotFoundException {
         for (long userId : teamMembersDto.getUserIds()) {
             User user = getUserById(userId);
-            SimpleTeam team = new SimpleTeam(teamId);
+            SimpleEntity team = new SimpleEntity(teamId);
             user.addToTeam(team);
             userRepository.save(user);
         }
@@ -69,7 +69,7 @@ public class UserFacade {
     public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException, TeamNotFoundException {
         for (long userId : teamMembersDto.getUserIds()) {
             User user = getUserById(userId);
-            SimpleTeam team = new SimpleTeam(teamId);
+            SimpleEntity team = new SimpleEntity(teamId);
             user.removeFrom(team);
             userRepository.save(user);
         }

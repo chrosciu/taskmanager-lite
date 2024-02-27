@@ -15,7 +15,7 @@
         <dependency>
             <groupId>eu.chrost</groupId>
             <artifactId>taskmanager-lite-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
