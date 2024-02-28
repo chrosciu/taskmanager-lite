@@ -1,10 +1,12 @@
-module eu.chrost.taskmanager {
+module eu.chrost.taskmanager.infrastructure.jpa {
     requires eu.chrost.taskmanager.team.domain;
     requires eu.chrost.taskmanager.team.application;
     requires eu.chrost.taskmanager.user.domain;
     requires eu.chrost.taskmanager.user.application;
 
-    requires spring.boot;
-    requires spring.boot.autoconfigure;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
+    requires spring.data.commons;
     requires spring.context;
+    requires spring.beans;
 }
