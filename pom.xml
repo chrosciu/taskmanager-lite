@@ -15,10 +15,12 @@
     <module>team-application</module>
     <module>user-application</module>
     <module>infrastructure</module>
+    <module>monolith</module>
   </modules>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.boot.version>3.2.2</spring.boot.version>
   </properties>
 
   <dependencies>
