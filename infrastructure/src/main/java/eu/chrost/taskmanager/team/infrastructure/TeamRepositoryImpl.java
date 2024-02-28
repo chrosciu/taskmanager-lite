@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.team.infrastructure;
 
-import eu.chrost.taskmanager.team.Team;
-import eu.chrost.taskmanager.team.TeamRepository;
+import eu.chrost.taskmanager.team.domain.Team;
+import eu.chrost.taskmanager.team.domain.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

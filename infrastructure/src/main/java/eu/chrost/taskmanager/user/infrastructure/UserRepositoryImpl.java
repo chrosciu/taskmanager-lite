@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.user.infrastructure;
 
-import eu.chrost.taskmanager.user.User;
-import eu.chrost.taskmanager.user.UserRepository;
+import eu.chrost.taskmanager.user.domain.User;
+import eu.chrost.taskmanager.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

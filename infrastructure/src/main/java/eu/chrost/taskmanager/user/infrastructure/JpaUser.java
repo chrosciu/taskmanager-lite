@@ -2,9 +2,9 @@ package eu.chrost.taskmanager.user.infrastructure;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
 import eu.chrost.taskmanager.team.infrastructure.JpaSimpleTeam;
-import eu.chrost.taskmanager.user.User;
-import eu.chrost.taskmanager.user.UserName;
-import eu.chrost.taskmanager.user.UserRole;
+import eu.chrost.taskmanager.user.domain.User;
+import eu.chrost.taskmanager.user.domain.UserName;
+import eu.chrost.taskmanager.user.domain.UserRole;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

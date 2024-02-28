@@ -2,7 +2,7 @@ package eu.chrost.taskmanager.team.infrastructure;
 
 import eu.chrost.taskmanager.team.application.TeamFacade;
 import eu.chrost.taskmanager.team.application.TeamQueryRepository;
-import eu.chrost.taskmanager.team.TeamRepository;
+import eu.chrost.taskmanager.team.domain.TeamRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

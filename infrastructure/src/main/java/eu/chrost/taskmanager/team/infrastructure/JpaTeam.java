@@ -1,8 +1,8 @@
 package eu.chrost.taskmanager.team.infrastructure;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
-import eu.chrost.taskmanager.team.Codename;
-import eu.chrost.taskmanager.team.Team;
+import eu.chrost.taskmanager.team.domain.Codename;
+import eu.chrost.taskmanager.team.domain.Team;
 import eu.chrost.taskmanager.user.infrastructure.JpaSimpleUser;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

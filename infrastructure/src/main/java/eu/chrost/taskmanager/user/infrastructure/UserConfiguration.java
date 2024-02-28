@@ -2,7 +2,7 @@ package eu.chrost.taskmanager.user.infrastructure;
 
 import eu.chrost.taskmanager.user.application.UserFacade;
 import eu.chrost.taskmanager.user.application.UserQueryRepository;
-import eu.chrost.taskmanager.user.UserRepository;
+import eu.chrost.taskmanager.user.domain.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
