@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user.dto;
 
-public interface UserQueryDto {
+public interface UserShortDto {
     Long getId();
     String getFirstName();
     String getLastName();

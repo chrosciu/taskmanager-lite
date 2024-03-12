@@ -40,6 +40,10 @@ class JpaUser {
     @ElementCollection
     private List<JpaSimpleTeam> teams = new ArrayList<>();
 
+    public List<Long> getTeamIds() {
+        return teams.stream().map(JpaSimpleTeam::getId).toList();
+    }
+
     static JpaUser fromUser(User user) {
         JpaUser jpaUser = new JpaUser();
         jpaUser.id = user.getId();
