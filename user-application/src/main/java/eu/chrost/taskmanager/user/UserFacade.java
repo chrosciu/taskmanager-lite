@@ -1,12 +1,13 @@
 package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
-import eu.chrost.taskmanager.commons.dto.TeamMembersDto;
+import eu.chrost.taskmanager.commons.event.TeamMembersEvent;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,8 +57,15 @@ public class UserFacade {
         userRepository.delete(user);
     }
 
-    public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
-        for (long userId : teamMembersDto.getUserIds()) {
+    public void handle(TeamMembersEvent teamMembersEvent) throws UserNotFoundException {
+        switch (teamMembersEvent.getType()) {
+            case MEMBERS_ADDED -> addTeamToUsersTeams(teamMembersEvent.getTeamId(), teamMembersEvent.getUserIds());
+            case MEMBERS_REMOVED -> removeTeamFromUsersTeams(teamMembersEvent.getTeamId(), teamMembersEvent.getUserIds());
+        }
+    }
+
+    private void addTeamToUsersTeams(long teamId, List<Long> userIds) throws UserNotFoundException {
+        for (long userId : userIds) {
             User user = getUserById(userId);
             SimpleEntity team = new SimpleEntity(teamId);
             user.addToTeam(team);
@@ -65,8 +73,8 @@ public class UserFacade {
         }
     }
 
-    public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
-        for (long userId : teamMembersDto.getUserIds()) {
+    private void removeTeamFromUsersTeams(long teamId, List<Long> userIds) throws UserNotFoundException {
+        for (long userId : userIds) {
             User user = getUserById(userId);
             SimpleEntity team = new SimpleEntity(teamId);
             user.removeFrom(team);

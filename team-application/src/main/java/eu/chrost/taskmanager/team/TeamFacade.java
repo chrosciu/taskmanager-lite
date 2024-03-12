@@ -1,7 +1,9 @@
 package eu.chrost.taskmanager.team;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
-import eu.chrost.taskmanager.commons.dto.TeamMembersDto;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
+import eu.chrost.taskmanager.commons.event.EventPublisher;
+import eu.chrost.taskmanager.commons.event.TeamMembersEvent;
 import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class TeamFacade {
     private final TeamRepository teamRepository;
     private final TeamQueryRepository teamQueryRepository;
+    private final EventPublisher eventPublisher;
 
     public long createTeamAndReturnItsId(TeamDto teamDto) throws TeamAlreadyExistsException {
         if (teamQueryRepository.existsByName(teamDto.getName())) {
@@ -58,6 +61,9 @@ public class TeamFacade {
             team.addMember(user);
         }
         teamRepository.save(team);
+        TeamMembersEvent teamMembersEvent =
+                new TeamMembersEvent(TeamMembersEvent.Type.MEMBERS_ADDED, teamId, teamMembersDto.getUserIds());
+        eventPublisher.publish(teamMembersEvent);
     }
 
     public void removeMembersFromTeam(long teamId, TeamMembersDto teamMembersDto) throws TeamNotFoundException {
@@ -67,6 +73,9 @@ public class TeamFacade {
             team.removeMember(user);
         }
         teamRepository.save(team);
+        TeamMembersEvent teamMembersEvent =
+                new TeamMembersEvent(TeamMembersEvent.Type.MEMBERS_REMOVED, teamId, teamMembersDto.getUserIds());
+        eventPublisher.publish(teamMembersEvent);
     }
 
     private Team getTeamById(long id) {
