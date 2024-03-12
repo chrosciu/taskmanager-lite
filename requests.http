@@ -101,6 +101,15 @@ GET http://localhost:8080/teams/1
     client.assert(response.body.userIds[0] === 1);
 %}
 
+### Get user
+GET http://localhost:8080/users/1
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.teamIds.length === 1);
+    client.assert(response.body.teamIds[0] === 1);
+%}
+
 ### Delete team members
 DELETE http://localhost:8080/teams/1/members
 Content-Type: application/json
@@ -119,6 +128,14 @@ GET http://localhost:8080/teams/1
 > {%
     client.assert(response.status === 200);
     client.assert(response.body.userIds.length === 0);
+%}
+
+### Get user
+GET http://localhost:8080/users/1
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.teamIds.length === 0);
 %}
 
 ### Delete team

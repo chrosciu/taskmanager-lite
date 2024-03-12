@@ -1,7 +1,8 @@
 package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.user.dto.UserDto;
-import eu.chrost.taskmanager.user.dto.UserQueryDto;
+import eu.chrost.taskmanager.user.dto.UserFullDto;
+import eu.chrost.taskmanager.user.dto.UserShortDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +30,12 @@ class UserController {
     private final UserQueryRepository userQueryRepository;
 
     @GetMapping
-    public ResponseEntity<List<UserQueryDto>> getAllUsers() {
+    public ResponseEntity<List<UserShortDto>> getAllUsers() {
         return new ResponseEntity<>(userQueryRepository.findBy(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserQueryDto> getUser(@PathVariable("id") long id) {
+    public ResponseEntity<UserFullDto> getUser(@PathVariable("id") long id) {
         return userQueryRepository.findDtoById(id)
                 .map(u -> new ResponseEntity<>(u, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -55,10 +56,10 @@ class UserController {
 
     @PutMapping(value = "/{id}")
     @Transactional
-    public ResponseEntity<UserQueryDto> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserShortDto> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
         try {
             userFacade.updateUserWithId(id, userDto);
-            UserQueryDto updatedUserDto = userQueryRepository.findDtoById(id).get();
+            UserShortDto updatedUserDto = userQueryRepository.findDtoById(id).get();
             return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
