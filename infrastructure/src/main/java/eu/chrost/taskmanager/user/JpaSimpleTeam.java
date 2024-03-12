@@ -1,5 +1,6 @@
 package eu.chrost.taskmanager.user;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -9,14 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-@Entity
-@Table(name = "teams")
+@Embeddable
 @Immutable
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 class JpaSimpleTeam {
-    @Id
     private long id;
 }

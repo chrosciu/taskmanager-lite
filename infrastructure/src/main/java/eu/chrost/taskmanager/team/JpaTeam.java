@@ -1,6 +1,7 @@
 package eu.chrost.taskmanager.team;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ class JpaTeam {
 
     private String description;
 
-    @OneToMany
+    @ElementCollection
     private List<JpaSimpleUser> members = new ArrayList<>();
 
     public List<Long> getMemberIds() {
