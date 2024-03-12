@@ -1,6 +1,7 @@
 package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.commons.SimpleEntity;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,7 +37,7 @@ class JpaUser {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @OneToMany
+    @ElementCollection
     private List<JpaSimpleTeam> teams = new ArrayList<>();
 
     public List<Long> getTeamIds() {
