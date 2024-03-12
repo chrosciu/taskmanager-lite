@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.team;
 
 
-import eu.chrost.taskmanager.commons.dto.TeamMembersDto;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.dto.TeamFullDto;
 import eu.chrost.taskmanager.team.dto.TeamShortDto;
 import eu.chrost.taskmanager.team.dto.TeamDto;
@@ -76,7 +76,7 @@ class TeamController {
     public ResponseEntity<Void> addTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.addMembersToTeam(id, dto);
-            userFacade.addTeamToUsersTeams(dto, id);
+            //userFacade.addTeamToUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -88,7 +88,7 @@ class TeamController {
     public ResponseEntity<Void> removeTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.removeMembersFromTeam(id, dto);
-            userFacade.removeTeamFromUsersTeams(dto, id);
+            //userFacade.removeTeamFromUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
