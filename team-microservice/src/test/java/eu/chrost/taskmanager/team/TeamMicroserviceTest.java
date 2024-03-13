@@ -1,11 +1,10 @@
-package eu.chrost.taskmanager;
+package eu.chrost.taskmanager.team;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TaskManagerApplicationTest {
-
+class TeamMicroserviceTest {
     @Test
     void contextLoads() {
     }
