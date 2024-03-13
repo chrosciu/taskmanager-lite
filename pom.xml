@@ -16,7 +16,8 @@
     <module>user-application</module>
     <module>team-infrastructure</module>
     <module>user-infrastructure</module>
-    <module>monolith</module>
+    <module>team-microservice</module>
+    <module>user-microservice</module>
   </modules>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
