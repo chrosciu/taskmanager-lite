@@ -7,8 +7,6 @@ import eu.chrost.taskmanager.team.dto.TeamShortDto;
 import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
-import eu.chrost.taskmanager.user.UserFacade;
-import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +30,6 @@ import java.util.List;
 class TeamController {
     private final TeamFacade teamFacade;
     private final TeamQueryRepository teamQueryRepository;
-    private final UserFacade userFacade;
 
     @GetMapping
     public ResponseEntity<List<TeamShortDto>> findAll() {
@@ -76,9 +73,8 @@ class TeamController {
     public ResponseEntity<Void> addTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.addMembersToTeam(id, dto);
-            //userFacade.addTeamToUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (TeamNotFoundException | UserNotFoundException e) {
+        } catch (TeamNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -88,9 +84,8 @@ class TeamController {
     public ResponseEntity<Void> removeTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.removeMembersFromTeam(id, dto);
-            //userFacade.removeTeamFromUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (TeamNotFoundException | UserNotFoundException e) {
+        } catch (TeamNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

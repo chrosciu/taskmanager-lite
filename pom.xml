@@ -14,7 +14,8 @@
     <module>user-domain</module>
     <module>team-application</module>
     <module>user-application</module>
-    <module>infrastructure</module>
+    <module>team-infrastructure</module>
+    <module>user-infrastructure</module>
     <module>monolith</module>
   </modules>
   <properties>
