@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager;
+package eu.chrost.taskmanager.team;
 
 import eu.chrost.taskmanager.commons.event.Event;
 import eu.chrost.taskmanager.commons.event.EventPublisher;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SpringEventPublisher implements EventPublisher {
+class SpringTeamEventPublisher implements EventPublisher {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
