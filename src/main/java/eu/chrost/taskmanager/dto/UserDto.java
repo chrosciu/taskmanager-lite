@@ -3,6 +3,9 @@ package eu.chrost.taskmanager.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class UserDto {
@@ -11,5 +14,6 @@ public class UserDto {
     private String lastName;
     private String login;
     private String password;
-    private String teamRole;
+    private String userRole;
+    private List<Long> teamIds = new ArrayList<>();
 }

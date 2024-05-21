@@ -3,6 +3,7 @@ package eu.chrost.taskmanager.api.rest;
 import eu.chrost.taskmanager.dto.UserDto;
 import eu.chrost.taskmanager.exception.UserNotFoundException;
 import eu.chrost.taskmanager.model.embedded.UserName;
+import eu.chrost.taskmanager.model.entities.Team;
 import eu.chrost.taskmanager.model.entities.User;
 import eu.chrost.taskmanager.model.enums.TeamRole;
 import eu.chrost.taskmanager.repository.UserRepository;
@@ -23,6 +24,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/users")
@@ -48,7 +51,7 @@ public class UserController {
 
             TeamRole teamRole = user.getTeamRole();
             if (teamRole != null) {
-                userDto.setTeamRole(teamRole.name());
+                userDto.setUserRole(teamRole.name());
             }
 
             usersDtos.add(userDto);
@@ -68,10 +71,11 @@ public class UserController {
             userDto.setLastName(user.getUserName().getLastName());
             userDto.setLogin(user.getLogin());
             userDto.setPassword(user.getPassword());
+            userDto.setTeamIds(user.getTeams().stream().map(Team::getId).collect(toList()));
 
             TeamRole teamRole = user.getTeamRole();
             if (teamRole != null) {
-                userDto.setTeamRole(teamRole.name());
+                userDto.setUserRole(teamRole.name());
             }
 
             return new ResponseEntity<>(userDto, HttpStatus.OK);
@@ -86,7 +90,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             User user = new User();
-            user.setTeamRole(TeamRole.valueOf(userDto.getTeamRole()));
+            user.setTeamRole(TeamRole.valueOf(userDto.getUserRole()));
             UserName userName = new UserName();
             userName.setFirstName(userDto.getFirstName());
             userName.setLastName(userDto.getLastName());
@@ -124,8 +128,8 @@ public class UserController {
             user.setPassword(userDto.getPassword());
         }
 
-        if (userDto.getTeamRole() != null) {
-            user.setTeamRole(TeamRole.valueOf(userDto.getTeamRole()));
+        if (userDto.getUserRole() != null) {
+            user.setTeamRole(TeamRole.valueOf(userDto.getUserRole()));
         }
         
         User updated = userRepository.save(user);
@@ -139,7 +143,7 @@ public class UserController {
 
         TeamRole teamRole = updated.getTeamRole();
         if (teamRole != null) {
-            response.setTeamRole(teamRole.name());
+            response.setUserRole(teamRole.name());
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
