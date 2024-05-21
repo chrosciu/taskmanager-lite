@@ -8,22 +8,41 @@ Content-Type: application/json
   "lastName": "Doe",
   "login": "johndoe",
   "password": "jd_password",
-  "teamRole": "DEVELOPER"
+  "userRole": "DEVELOPER"
 }
+
+> {%
+    client.assert(response.status === 201);
+    const userIdMatches = response.headers.valueOf("Location").match(/\/users\/(\d+)/);
+    client.assert(userIdMatches.length == 2);
+    client.global.set("userId", userIdMatches[1]);
+%}
 
 ### Get all users
 GET http://localhost:8080/users
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get users
-GET http://localhost:8080/users/1
+GET http://localhost:8080/users/{{userId}}
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Update user
-PUT http://localhost:8080/users/1
+PUT http://localhost:8080/users/{{userId}}
 Content-Type: application/json
 
 {
-  "teamRole": "TESTER"
+  "userRole": "TESTER"
 }
+
+> {%
+    client.assert(response.status === 200);
+%}
 
 ### Create team
 POST http://localhost:8080/teams
@@ -33,40 +52,110 @@ Content-Type: application/json
   "name": "Wajchowi"
 }
 
+> {%
+    client.assert(response.status === 201);
+    const teamIdMatches = response.headers.valueOf("Location").match(/\/teams\/(\d+)/);
+    client.assert(teamIdMatches.length == 2);
+    client.global.set("teamId", teamIdMatches[1]);
+%}
+
 ### Get all teams
 GET http://localhost:8080/teams
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Get team
-GET http://localhost:8080/teams/1
+GET http://localhost:8080/teams/{{teamId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 0);
+%}
 
 ### Update team
-PUT http://localhost:8080/teams/1
+PUT http://localhost:8080/teams/{{teamId}}
 Content-Type: application/json
 
 {
   "name": "Druciarze"
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
 ### Add team members
-PUT http://localhost:8080/teams/1/members
+PUT http://localhost:8080/teams/{{teamId}}/members
 Content-Type: application/json
 
 {
-  "userIds": [1]
+  "userIds": [{{userId}}]
 }
+
+> {%
+    client.assert(response.status === 200);
+%}
+
+### Get team
+GET http://localhost:8080/teams/{{teamId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 1);
+    client.assert(response.body.userIds[0] == client.global.get("userId"));
+%}
+
+### Get user
+GET http://localhost:8080/users/{{userId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.teamIds.length === 1);
+    client.assert(response.body.teamIds[0] == client.global.get("teamId"));
+%}
 
 ### Delete team members
-DELETE http://localhost:8080/teams/1/members
+DELETE http://localhost:8080/teams/{{teamId}}/members
 Content-Type: application/json
 
 {
-  "userIds": [1]
+  "userIds": [{{userId}}]
 }
 
+> {%
+    client.assert(response.status === 200);
+%}
+
+### Get team
+GET http://localhost:8080/teams/{{teamId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.userIds.length === 0);
+%}
+
+### Get user
+GET http://localhost:8080/users/{{userId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.assert(response.body.teamIds.length === 0);
+%}
+
 ### Delete team
-DELETE http://localhost:8080/teams/1
+DELETE http://localhost:8080/teams/{{teamId}}
+
+> {%
+    client.assert(response.status === 200);
+    client.global.clear("teamId");
+%}
 
 ### Delete user
-DELETE http://localhost:8080/users/1
+DELETE http://localhost:8080/users/{{userId}}
 
-
+> {%
+    client.assert(response.status === 200);
+    client.global.clear("userId");
+%}
