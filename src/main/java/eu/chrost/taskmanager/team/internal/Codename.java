@@ -1,9 +1,9 @@
-package eu.chrost.taskmanager.team;
+package eu.chrost.taskmanager.team.internal;
 
 import lombok.Data;
 
 @Data
-class Codename {
+public class Codename {
     private String shortName;
     private String fullName;
 }

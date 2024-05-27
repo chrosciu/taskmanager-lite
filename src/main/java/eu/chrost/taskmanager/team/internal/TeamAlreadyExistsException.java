@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.team.exception;
+package eu.chrost.taskmanager.team.internal;
 
 public class TeamAlreadyExistsException extends RuntimeException {
 }

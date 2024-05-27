@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.team;
+package eu.chrost.taskmanager.team.internal;
 
 
 import jakarta.persistence.Entity;
@@ -17,7 +17,7 @@ import org.hibernate.annotations.Immutable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-class SimpleUserQueryEntity {
+public class SimpleUserQueryEntity {
     @Id
     private long id;
 }

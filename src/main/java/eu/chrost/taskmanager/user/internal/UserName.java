@@ -1,9 +1,9 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.internal;
 
 import lombok.Data;
 
 @Data
-class UserName {
+public class UserName {
     private String firstName;
     private String lastName;
 }

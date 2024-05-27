@@ -1,7 +1,5 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.internal;
 
-import eu.chrost.taskmanager.user.dto.UserFullDto;
-import eu.chrost.taskmanager.user.dto.UserShortDto;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;

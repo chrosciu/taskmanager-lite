@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.internal;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = "teams")
-class User {
+public class User {
     @Id
     @GeneratedValue
     private Long id;

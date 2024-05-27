@@ -1,14 +1,9 @@
-package eu.chrost.taskmanager.team;
+package eu.chrost.taskmanager.team.internal;
 
 
-import eu.chrost.taskmanager.team.dto.TeamDto;
-import eu.chrost.taskmanager.team.dto.TeamFullDto;
-import eu.chrost.taskmanager.user.dto.TeamMembersDto;
-import eu.chrost.taskmanager.team.dto.TeamShortDto;
-import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
-import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
+import eu.chrost.taskmanager.user.TeamMembersDto;
 import eu.chrost.taskmanager.user.UserFacade;
-import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import eu.chrost.taskmanager.user.internal.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +25,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/teams")
 @RequiredArgsConstructor
-class TeamController {
+public class TeamController {
     private final TeamFacade teamFacade;
     private final TeamQueryRepository teamQueryRepository;
     private final UserFacade userFacade;
