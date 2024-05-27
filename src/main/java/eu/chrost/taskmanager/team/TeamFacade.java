@@ -8,8 +8,6 @@ import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class TeamFacade {
@@ -72,12 +70,7 @@ public class TeamFacade {
     }
 
     private Team getTeamById(long id) {
-        Optional<Team> team = teamRepository.findById(id);
-
-        if (team.isEmpty()) {
-            throw new TeamNotFoundException();
-        }
-
-        return team.get();
+        return teamRepository.findById(id)
+                .orElseThrow(TeamNotFoundException::new);
     }
 }
