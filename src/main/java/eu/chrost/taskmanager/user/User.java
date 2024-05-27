@@ -1,6 +1,5 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

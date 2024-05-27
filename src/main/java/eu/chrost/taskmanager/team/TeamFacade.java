@@ -1,10 +1,9 @@
 package eu.chrost.taskmanager.team;
 
 import eu.chrost.taskmanager.team.dto.TeamDto;
-import eu.chrost.taskmanager.team.dto.TeamMembersDto;
+import eu.chrost.taskmanager.common.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
-import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
