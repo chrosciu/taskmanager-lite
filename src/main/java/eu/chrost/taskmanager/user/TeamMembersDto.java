@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.common.dto;
+package eu.chrost.taskmanager.user;
 
 import lombok.Data;
 

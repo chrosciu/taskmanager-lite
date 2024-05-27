@@ -1,9 +1,14 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.common.dto.TeamMembersDto;
-import eu.chrost.taskmanager.user.dto.UserDto;
-import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
-import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import eu.chrost.taskmanager.user.internal.SimpleTeamQueryEntity;
+import eu.chrost.taskmanager.user.internal.User;
+import eu.chrost.taskmanager.user.internal.UserAlreadyExistsException;
+import eu.chrost.taskmanager.user.internal.UserDto;
+import eu.chrost.taskmanager.user.internal.UserName;
+import eu.chrost.taskmanager.user.internal.UserNotFoundException;
+import eu.chrost.taskmanager.user.internal.UserQueryRepository;
+import eu.chrost.taskmanager.user.internal.UserRepository;
+import eu.chrost.taskmanager.user.internal.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

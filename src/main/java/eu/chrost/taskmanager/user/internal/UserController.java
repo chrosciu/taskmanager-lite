@@ -1,10 +1,6 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.internal;
 
-import eu.chrost.taskmanager.user.dto.UserDto;
-import eu.chrost.taskmanager.user.dto.UserFullDto;
-import eu.chrost.taskmanager.user.dto.UserShortDto;
-import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
-import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import eu.chrost.taskmanager.user.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-class UserController {
+public class UserController {
     private final UserFacade userFacade;
     private final UserQueryRepository userQueryRepository;
 

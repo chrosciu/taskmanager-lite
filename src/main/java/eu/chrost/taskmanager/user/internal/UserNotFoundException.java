@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.user.exception;
+package eu.chrost.taskmanager.user.internal;
 
 public class UserNotFoundException extends RuntimeException {
 }

@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.team.dto;
+package eu.chrost.taskmanager.team.internal;
 
 import org.springframework.beans.factory.annotation.Value;
 

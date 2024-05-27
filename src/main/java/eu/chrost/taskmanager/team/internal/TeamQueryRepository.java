@@ -1,7 +1,5 @@
-package eu.chrost.taskmanager.team;
+package eu.chrost.taskmanager.team.internal;
 
-import eu.chrost.taskmanager.team.dto.TeamFullDto;
-import eu.chrost.taskmanager.team.dto.TeamShortDto;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;

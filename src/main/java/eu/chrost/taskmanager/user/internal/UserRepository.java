@@ -1,10 +1,10 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.internal;
 
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
-interface UserRepository extends Repository<User, Long> {
+public interface UserRepository extends Repository<User, Long> {
 
     User save(User user);
 
