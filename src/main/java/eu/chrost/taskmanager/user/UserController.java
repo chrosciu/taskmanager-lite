@@ -1,7 +1,9 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.Team;
-import org.springframework.beans.factory.annotation.Autowired;
+import eu.chrost.taskmanager.user.dto.UserDto;
+import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
+import eu.chrost.taskmanager.user.exception.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,63 +17,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 class UserController {
-    private final UserRepository userRepository;
-
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserFacade userFacade;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> usersDtos = new ArrayList<>();
-
-        for (User user : userRepository.findAll()) {
-            UserDto userDto = new UserDto();
-            userDto.setId(user.getId());
-            userDto.setFirstName(user.getUserName().getFirstName());
-            userDto.setLastName(user.getUserName().getLastName());
-            userDto.setLogin(user.getLogin());
-            userDto.setPassword(user.getPassword());
-
-            UserRole userRole = user.getUserRole();
-            if (userRole != null) {
-                userDto.setUserRole(userRole.name());
-            }
-
-            usersDtos.add(userDto);
-        }
-
+        List<UserDto> usersDtos = userFacade.getAllUsers();
         return new ResponseEntity<>(usersDtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
         try {
-            User user = getUserById(id);
-
-            UserDto userDto = new UserDto();
-            userDto.setId(user.getId());
-            userDto.setFirstName(user.getUserName().getFirstName());
-            userDto.setLastName(user.getUserName().getLastName());
-            userDto.setLogin(user.getLogin());
-            userDto.setPassword(user.getPassword());
-            userDto.setTeamIds(user.getTeams().stream().map(Team::getId).collect(toList()));
-
-            UserRole userRole = user.getUserRole();
-            if (userRole != null) {
-                userDto.setUserRole(userRole.name());
-            }
-
+            UserDto userDto = userFacade.getUserWithId(id);
             return new ResponseEntity<>(userDto, HttpStatus.OK);
         } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -80,91 +43,35 @@ class UserController {
 
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto, UriComponentsBuilder uriComponentsBuilder) {
-        if (exists(userDto)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            User user = new User();
-            user.setUserRole(UserRole.valueOf(userDto.getUserRole()));
-            UserName userName = new UserName();
-            userName.setFirstName(userDto.getFirstName());
-            userName.setLastName(userDto.getLastName());
-            user.setUserName(userName);
-            user.setLogin(userDto.getLogin());
-            user.setPassword(userDto.getPassword());
-
-            User saved = userRepository.save(user);
-
+        try {
+            long createdUserId = userFacade.createNewUserAndReturnItsId(userDto);
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(saved.getId()).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(createdUserId).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-    }
-
-    private boolean exists(UserDto userDto) {
-        return !userRepository.findByUserNameFirstNameAndUserNameLastName(userDto.getFirstName(), userDto.getLastName()).isEmpty();
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
-        User user;
-
         try {
-            user = getUserById(id);
-        } catch (UserNotFoundException exception) {
+            userFacade.updateUserWithId(id, userDto);
+            UserDto updatedUserDto = userFacade.getUserWithId(id);
+            return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if (userDto.getLogin() != null) {
-            user.setLogin(userDto.getLogin());
-        }
-
-        if (userDto.getPassword() != null) {
-            user.setPassword(userDto.getPassword());
-        }
-
-        if (userDto.getUserRole() != null) {
-            user.setUserRole(UserRole.valueOf(userDto.getUserRole()));
-        }
-        
-        User updated = userRepository.save(user);
-
-        UserDto response = new UserDto();
-        response.setId(updated.getId());
-        response.setFirstName(updated.getUserName().getFirstName());
-        response.setLastName(updated.getUserName().getLastName());
-        response.setLogin(updated.getLogin());
-        response.setPassword(updated.getPassword());
-
-        UserRole userRole = updated.getUserRole();
-        if (userRole != null) {
-            response.setUserRole(userRole.name());
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
-        User user;
-
         try {
-            user = getUserById(id);
+            userFacade.deleteUserWithId(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (UserNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        userRepository.delete(user);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private User getUserById(Long id) {
-        Optional<User> user;
-        user = userRepository.findById(id);
-
-        if (user.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-
-        return user.get();
-    }
 }
