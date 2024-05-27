@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class TeamDto {
+class TeamDto {
     private Long id;
     private String name;
     private String codenameShort;

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Codename {
+class Codename {
     private String shortName;
     private String fullName;
 }

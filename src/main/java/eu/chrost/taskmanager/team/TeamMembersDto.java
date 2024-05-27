@@ -2,7 +2,7 @@ package eu.chrost.taskmanager.team;
 
 import java.util.List;
 
-public class TeamMembersDto {
+class TeamMembersDto {
     private List<Long> userIds;
 
     public List<Long> getUserIds() {
