@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserName {
+class UserName {
     private String firstName;
     private String lastName;
 }

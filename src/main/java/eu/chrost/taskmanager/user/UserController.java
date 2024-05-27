@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+class UserController {
     private final UserRepository userRepository;
 
     @Autowired

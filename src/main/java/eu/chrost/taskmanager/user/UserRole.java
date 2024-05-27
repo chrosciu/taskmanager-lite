@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user;
 
-public enum UserRole {
+enum UserRole {
     DEVELOPER,
     BUSINESS_ANALYST,
     TESTER

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserDto {
+class UserDto {
     private Long id;
     private String firstName;
     private String lastName;
