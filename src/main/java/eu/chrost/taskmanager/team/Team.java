@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "teams")
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "members")
 class Team {
     @Id
     @GeneratedValue
