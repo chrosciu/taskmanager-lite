@@ -1,15 +1,10 @@
 package eu.chrost.taskmanager.team;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 class TeamMembersDto {
     private List<Long> userIds;
-
-    public List<Long> getUserIds() {
-        return List.copyOf(userIds);
-    }
-
-    public void setUserIds(List<Long> userIds) {
-        this.userIds = List.copyOf(userIds);
-    }
 }

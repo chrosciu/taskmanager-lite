@@ -1,18 +1,15 @@
 package eu.chrost.taskmanager.team;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 class TeamDto {
     private Long id;
     private String name;
     private String codenameShort;
     private String codenameFull;
     private String description;
-    private List<Long> userIds = new ArrayList<>();
+    private List<Long> userIds;
 }
