@@ -1,53 +1,37 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import eu.chrost.taskmanager.user.dto.SimpleUser;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "teams")
-@Getter
-@Setter
-@EqualsAndHashCode(exclude = "members")
+@Data
 class Team {
-    @Id
-    @GeneratedValue
     private Long id;
 
     private String name;
 
-    @Embedded
     private Codename codename;
 
     private String description;
 
-    @OneToMany
-    private List<SimpleUserQueryEntity> members = new ArrayList<>();
+    private List<SimpleUser> members = new ArrayList<>();
 
-    public List<SimpleUserQueryEntity> getMembers() {
+    public List<SimpleUser> getMembers() {
         return List.copyOf(members);
     }
 
-    public void addMember(SimpleUserQueryEntity user) {
+    public void addMember(SimpleUser user) {
         members.add(user);
     }
 
-    public void removeMember(SimpleUserQueryEntity user) {
+    public void removeMember(SimpleUser user) {
         members.remove(user);
     }
 
     public List<Long> getMemberIds() {
-        return members.stream().map(SimpleUserQueryEntity::getId).toList();
+        return members.stream().map(SimpleUser::id).toList();
     }
 }
 

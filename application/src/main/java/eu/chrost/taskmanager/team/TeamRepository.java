@@ -1,10 +1,8 @@
 package eu.chrost.taskmanager.team;
 
-import org.springframework.data.repository.Repository;
-
 import java.util.Optional;
 
-interface TeamRepository extends Repository<Team, Long> {
+interface TeamRepository {
 
     Team save(Team team);
 
