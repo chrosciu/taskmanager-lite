@@ -8,56 +8,16 @@ import eu.chrost.taskmanager.user.dto.SimpleUserQueryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
 public class TeamFacade {
     private final TeamRepository teamRepository;
-
-    public List<TeamDto> getAllTeams() {
-        List<TeamDto> teams = StreamSupport.stream(teamRepository.findAll().spliterator(), false)
-                .map(team -> {
-                    TeamDto dto = new TeamDto();
-                    dto.setId(team.getId());
-                    dto.setName(team.getName());
-
-                    if (team.getCodename() != null) {
-                        dto.setCodenameShort(team.getCodename().getShortName());
-                        dto.setCodenameFull(team.getCodename().getFullName());
-                    }
-
-                    dto.setDescription(team.getDescription());
-
-                    return dto;
-                })
-                .collect(toList());
-        return teams;
-    }
-
-    public TeamDto getTeamWithId(long id) throws TeamNotFoundException {
-        Team team = getTeamById(id);
-        TeamDto dto = new TeamDto();
-        dto.setId(team.getId());
-        dto.setName(team.getName());
-
-        if (team.getCodename() != null) {
-            dto.setCodenameShort(team.getCodename().getShortName());
-            dto.setCodenameFull(team.getCodename().getFullName());
-        }
-
-        dto.setDescription(team.getDescription());
-        dto.setUserIds(team.getMembers().stream().map(SimpleUserQueryEntity::getId).collect(toList()));
-
-        return dto;
-    }
+    private final TeamQueryRepository teamQueryRepository;
 
     public long createTeamAndReturnItsId(TeamDto teamDto) throws TeamAlreadyExistsException {
-        if (teamRepository.existsByName(teamDto.getName())) {
+        if (teamQueryRepository.existsByName(teamDto.getName())) {
             throw new TeamAlreadyExistsException();
         } else {
             Team team = new Team();
