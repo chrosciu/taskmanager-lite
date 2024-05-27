@@ -32,7 +32,7 @@ public class User {
     private UserName userName;
 
     @Enumerated(EnumType.STRING)
-    private TeamRole teamRole;
+    private UserRole userRole;
 
     @OneToMany
     private List<Team> teams = new ArrayList<>();
