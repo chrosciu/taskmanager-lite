@@ -2,7 +2,6 @@ package eu.chrost.taskmanager.user;
 
 import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
-import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
@@ -101,7 +100,7 @@ public class UserFacade {
         userRepository.delete(user);
     }
 
-    public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException, TeamNotFoundException {
+    public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
         for (long userId : teamMembersDto.getUserIds()) {
             User user = getUserById(userId);
             SimpleTeamQueryEntity team = new SimpleTeamQueryEntity(teamId);
@@ -110,7 +109,7 @@ public class UserFacade {
         }
     }
 
-    public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException, TeamNotFoundException {
+    public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
         for (long userId : teamMembersDto.getUserIds()) {
             User user = getUserById(userId);
             SimpleTeamQueryEntity team = new SimpleTeamQueryEntity(teamId);
