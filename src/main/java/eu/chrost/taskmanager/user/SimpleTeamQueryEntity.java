@@ -1,5 +1,4 @@
-package eu.chrost.taskmanager.user.dto;
-
+package eu.chrost.taskmanager.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,13 +10,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "users")
+@Table(name = "teams")
 @Immutable
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class SimpleUserQueryEntity {
+class SimpleTeamQueryEntity {
     @Id
     private long id;
 }
