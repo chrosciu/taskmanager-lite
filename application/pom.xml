@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>taskmanager-lite-application</artifactId>
+    <artifactId>application</artifactId>
 
     <dependencyManagement>
         <dependencies>
@@ -26,7 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>eu.chrost</groupId>
-            <artifactId>taskmanager-lite-domain</artifactId>
+            <artifactId>domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
