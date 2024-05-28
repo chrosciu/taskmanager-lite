@@ -9,10 +9,12 @@
   <name>taskmanager-lite</name>
   <description>Task Manager (lite version)</description>
   <modules>
-    <module>application</module>
     <module>infrastructure</module>
     <module>team-domain</module>
     <module>user-domain</module>
+    <module>team-application</module>
+    <module>user-application</module>
+    <module>common</module>
   </modules>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
