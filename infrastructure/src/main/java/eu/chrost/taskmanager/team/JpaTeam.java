@@ -1,6 +1,5 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.user.JpaSimpleUser;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
