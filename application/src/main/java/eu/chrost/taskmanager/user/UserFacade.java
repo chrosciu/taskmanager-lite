@@ -1,6 +1,5 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.dto.SimpleTeam;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
@@ -9,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
