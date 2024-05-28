@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>monolith</artifactId>
+    <artifactId>user-microservice</artifactId>
 
     <dependencyManagement>
         <dependencies>
@@ -24,11 +24,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>eu.chrost</groupId>
-            <artifactId>team-infrastructure</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>eu.chrost</groupId>
             <artifactId>user-infrastructure</artifactId>
@@ -61,7 +56,7 @@
     </dependencies>
 
     <build>
-        <finalName>${parent.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -76,7 +71,5 @@
             </plugin>
         </plugins>
     </build>
-
-
 
 </project>

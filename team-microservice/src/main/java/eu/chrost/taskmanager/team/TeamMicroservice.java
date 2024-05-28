@@ -1,11 +1,11 @@
-package eu.chrost.taskmanager;
+package eu.chrost.taskmanager.team;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TaskManagerApplication {
+class TeamMicroservice {
     public static void main(String[] args) {
-        SpringApplication.run(TaskManagerApplication.class, args);
+        SpringApplication.run(TeamMicroservice.class);
     }
 }
