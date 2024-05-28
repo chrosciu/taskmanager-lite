@@ -35,5 +35,14 @@ class TaskManagerArchitectureTest {
             .should()
                 .bePublic();
 
+    @ArchTest
+    static final ArchRule noClassesFromUserPackageExceptUserFacadeAndUserQueryRepositoryShouldBePublic =
+            noClasses()
+                .that().resideInAPackage("eu.chrost.taskmanager.user")
+                .and().doNotHaveSimpleName("UserFacade")
+                .and().doNotHaveSimpleName("UserQueryRepository")
+            .should()
+                .bePublic();
+
 
 }
