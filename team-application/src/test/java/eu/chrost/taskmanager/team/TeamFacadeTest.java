@@ -133,5 +133,4 @@ class TeamFacadeTest {
     private static String randomString() {
         return UUID.randomUUID().toString();
     }
-
 }
