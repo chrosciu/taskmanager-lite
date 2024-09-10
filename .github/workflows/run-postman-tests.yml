@@ -1,0 +1,38 @@
+name: Build, Test, and Run Postman Tests
+
+on:
+  push:
+    branches:
+      - conference
+
+jobs:
+  run-postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+
+      - name: Run Spring Boot application
+        run: mvn spring-boot:run &
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Install Newman HTML reporter
+        run: npm install -g newman-reporter-html
+
+      - name: Run Postman tests with Newman
+        run: newman run --verbose --delay-request 1000 --reporters cli,html --reporter-html-export postman-report.html collections/taskmanager-lite.postman_collection.json
+
+      - name: Upload Postman HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-report
+          path: postman-report.html
