@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class TeamConfiguration {
     @Bean
-    public TeamFacade teamFacade(TeamRepository teamRepository, TeamQueryRepository teamQueryRepository) {
-        return new TeamFacade(teamRepository, teamQueryRepository);
+    public TeamFacade teamFacade(TeamRepository teamRepository,
+                                 TeamQueryRepository teamQueryRepository,
+                                 TeamEventPublisher teamEventPublisher) {
+        return new TeamFacade(teamRepository, teamQueryRepository, teamEventPublisher);
     }
 }
