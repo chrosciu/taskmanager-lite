@@ -48,4 +48,8 @@ class User {
     public void removeFrom(SimpleTeamQueryEntity team) {
         teams.remove(team);
     }
+
+    public List<Long> getTeamIds() {
+        return teams.stream().map(SimpleTeamQueryEntity::getId).toList();
+    }
 }
