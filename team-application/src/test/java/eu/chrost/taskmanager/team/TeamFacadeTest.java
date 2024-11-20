@@ -1,7 +1,8 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.common.TeamMembersDto;
+import eu.chrost.taskmanager.common.event.EventPublisher;
 import eu.chrost.taskmanager.team.dto.TeamDto;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -20,8 +21,9 @@ class TeamFacadeTest {
     private final InMemoryTeamRepository teamRepository = new InMemoryTeamRepository(
             createTeam(1L, "Avengers", "A", "Mighty Avengers", "the greatest team on Earth")
     );
+    private final EventPublisher dummyEventPublisher = event -> {};
 
-    private final TeamFacade teamFacade = new TeamFacade(teamRepository, teamRepository);
+    private final TeamFacade teamFacade = new TeamFacade(teamRepository, teamRepository, dummyEventPublisher);
 
     @Test
     void A_new_team_should_be_persisted_and_its_id_returned() {
