@@ -13,7 +13,7 @@ class TeamConfiguration {
     @Bean
     public TeamFacade teamFacade(TeamRepository teamRepository,
                                  TeamQueryRepository teamQueryRepository,
-                                 EventPublisher eventPublisher) {
+                                 RabbitTeamEventPublisher eventPublisher) {
         return new TeamFacade(teamRepository, teamQueryRepository, eventPublisher);
     }
 
