@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByUserNameFirstNameAndUserNameLastName(String firstName, String lastName);
 }

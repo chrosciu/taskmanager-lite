@@ -1,6 +1,7 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.Team;
+import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
@@ -48,7 +49,7 @@ public class UserFacade {
         userDto.setLastName(user.getUserName().getLastName());
         userDto.setLogin(user.getLogin());
         userDto.setPassword(user.getPassword());
-        userDto.setTeamIds(user.getTeams().stream().map(Team::getId).collect(toList()));
+        userDto.setTeamIds(user.getTeams().stream().map(SimpleTeamQueryEntity::getId).collect(toList()));
 
         UserRole userRole = user.getUserRole();
         if (userRole != null) {
@@ -99,7 +100,25 @@ public class UserFacade {
         userRepository.delete(user);
     }
 
-    private User getUserById(Long id) {
+    public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
+        for (long userId : teamMembersDto.getUserIds()) {
+            User user = getUserById(userId);
+            SimpleTeamQueryEntity team = new SimpleTeamQueryEntity(teamId);
+            user.addToTeam(team);
+            userRepository.save(user);
+        }
+    }
+
+    public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
+        for (long userId : teamMembersDto.getUserIds()) {
+            User user = getUserById(userId);
+            SimpleTeamQueryEntity team = new SimpleTeamQueryEntity(teamId);
+            user.removeFrom(team);
+            userRepository.save(user);
+        }
+    }
+
+    private User getUserById(long id) {
         Optional<User> user;
         user = userRepository.findById(id);
 

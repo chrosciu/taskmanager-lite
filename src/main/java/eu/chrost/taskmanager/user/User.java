@@ -1,6 +1,6 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.team.Team;
+import eu.chrost.taskmanager.team.dto.SimpleTeamQueryEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +21,7 @@ import java.util.List;
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = "teams")
-public class User {
+class User {
     @Id
     @GeneratedValue
     private Long id;
@@ -35,20 +35,17 @@ public class User {
     private UserRole userRole;
 
     @OneToMany
-    private List<Team> teams = new ArrayList<>();
+    private List<SimpleTeamQueryEntity> teams = new ArrayList<>();
 
-    public List<Team> getTeams() {
+    public List<SimpleTeamQueryEntity> getTeams() {
         return List.copyOf(teams);
     }
 
-    public void addToTeam(Team team) {
+    public void addToTeam(SimpleTeamQueryEntity team) {
         teams.add(team);
     }
 
-    public void removeFrom(Team team) {
-        if (!teams.contains(team)) {
-            throw new RuntimeException();
-        }
+    public void removeFrom(SimpleTeamQueryEntity team) {
         teams.remove(team);
     }
 }
