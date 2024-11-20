@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "users")
+@Table(name = "teams")
 @Immutable
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class JpaSimpleUser {
+class JpaSimpleTeam {
     @Id
     private long id;
 }

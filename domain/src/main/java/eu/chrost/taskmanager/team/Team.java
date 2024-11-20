@@ -1,6 +1,5 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.user.dto.SimpleUser;
 import lombok.Data;
 
 import java.util.ArrayList;
