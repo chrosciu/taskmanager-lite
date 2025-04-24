@@ -1,5 +1,6 @@
 package eu.chrost.taskmanager.user;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -19,5 +20,10 @@ class UserConfiguration {
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(new Jackson2JsonMessageConverter());
         return factory;
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue("taskmanager");
     }
 }
