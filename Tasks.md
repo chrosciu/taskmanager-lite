@@ -19,7 +19,7 @@ Zastosuj wzorzec CQRS w domenie użytkowników (poprzez wydzielenie z fasady rep
 ## Zadanie 5: Czysty moduł `domain`
 Zrefaktoryzuj kod w module `domain` w domenie użytkowników (analogicznie jak stało się to w domenie zespołów), tak aby nie zawierał on **żadnych** zależności. Skorzystaj tutaj z przeniesienia repozytoriów JPA do warstwy infrastruktury.
 
-## Zadanie 6: Czysty moduł application
+## Zadanie 6: Czysty moduł `application`
 Zrefaktoryzuj kod w module `application` w domenie użytkowników (analogicznie jak stało się to w domenie zespołów), tak aby również i on nie zawierał *prawie* *żadnych* zależności - poza modułem `domain`. Wykorzystaj tutaj klasy konfiguracyjne Springa oraz możliwość rozszerzania istniejących interfejsów DTO z warstwy aplikacji w warstwie infrastruktury.
 
 ## Zadanie 7: Usuwanie użytkowników z zespołów poprzez eventy
