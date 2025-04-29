@@ -1,10 +1,10 @@
-package eu.chrost.taskmanager.team;
+package eu.chrost.taskmanager.team.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-class TeamMembersDto {
+public class TeamMembersDto {
     private List<Long> userIds;
 }
