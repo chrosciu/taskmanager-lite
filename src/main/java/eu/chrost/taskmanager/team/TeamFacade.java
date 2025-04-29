@@ -57,7 +57,7 @@ public class TeamFacade {
     }
 
     public long createTeamAndReturnItsId(TeamDto teamDto) throws TeamAlreadyExistsException {
-        if (teamRepository.findByName(teamDto.getName()).isPresent()) {
+        if (teamRepository.existsByName(teamDto.getName())) {
             throw new TeamAlreadyExistsException();
         } else {
             Team team = new Team();
