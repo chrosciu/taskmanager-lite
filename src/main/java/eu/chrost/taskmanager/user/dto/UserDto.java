@@ -1,11 +1,11 @@
-package eu.chrost.taskmanager.user;
+package eu.chrost.taskmanager.user.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-class UserDto {
+public class UserDto {
     private Long id;
     private String firstName;
     private String lastName;
