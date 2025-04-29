@@ -130,6 +130,6 @@ public class UserFacade {
     }
 
     private boolean exists(UserDto userDto) {
-        return !userRepository.findByUserNameFirstNameAndUserNameLastName(userDto.getFirstName(), userDto.getLastName()).isEmpty();
+        return userRepository.existsByUserNameFirstNameAndUserNameLastName(userDto.getFirstName(), userDto.getLastName());
     }
 }
