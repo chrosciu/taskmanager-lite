@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.common.Event;
-import eu.chrost.taskmanager.common.EventPublisher;
+import eu.chrost.taskmanager.common.event.Event;
+import eu.chrost.taskmanager.common.event.EventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

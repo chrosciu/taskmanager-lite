@@ -1,4 +1,4 @@
-package eu.chrost.taskmanager.common;
+package eu.chrost.taskmanager.common.event;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

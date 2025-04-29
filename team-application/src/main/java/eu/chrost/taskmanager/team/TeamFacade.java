@@ -1,8 +1,8 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.common.EventPublisher;
+import eu.chrost.taskmanager.common.event.EventPublisher;
 import eu.chrost.taskmanager.common.TeamMembersDto;
-import eu.chrost.taskmanager.common.TeamMembersEvent;
+import eu.chrost.taskmanager.common.event.TeamMembersEvent;
 import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
