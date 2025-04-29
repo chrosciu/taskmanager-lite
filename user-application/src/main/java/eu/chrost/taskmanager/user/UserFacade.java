@@ -2,11 +2,13 @@ package eu.chrost.taskmanager.user;
 
 
 import eu.chrost.taskmanager.common.TeamMembersDto;
+import eu.chrost.taskmanager.common.TeamMembersEvent;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,8 +58,14 @@ public class UserFacade {
         userRepository.delete(user);
     }
 
-    public void addTeamToUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
-        for (long userId : teamMembersDto.getUserIds()) {
+    public void handle(TeamMembersEvent teamMembersEvent) throws UserNotFoundException {
+        switch (teamMembersEvent.getType()) {
+            case MEMBERS_ADDED -> addTeamToUsersTeams(teamMembersEvent.getTeamId(), teamMembersEvent.getUserIds());
+        }
+    }
+
+    private void addTeamToUsersTeams(long teamId, List<Long> userIds) throws UserNotFoundException {
+        for (long userId : userIds) {
             User user = getUserById(userId);
             SimpleTeam team = new SimpleTeam(teamId);
             user.addToTeam(team);

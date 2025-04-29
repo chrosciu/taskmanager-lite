@@ -79,7 +79,6 @@ class TeamController {
     public ResponseEntity<Void> addTeamMembers(@PathVariable("id") long id, @RequestBody TeamMembersDto dto) {
         try {
             teamFacade.addMembersToTeam(id, dto);
-            userFacade.addTeamToUsersTeams(dto, id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (TeamNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
