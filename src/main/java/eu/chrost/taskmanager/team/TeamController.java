@@ -2,7 +2,9 @@ package eu.chrost.taskmanager.team;
 
 
 import eu.chrost.taskmanager.team.dto.TeamDto;
+import eu.chrost.taskmanager.team.dto.TeamFullDto;
 import eu.chrost.taskmanager.team.dto.TeamMembersDto;
+import eu.chrost.taskmanager.team.dto.TeamShortDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import eu.chrost.taskmanager.user.UserFacade;
@@ -23,32 +25,32 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/teams")
 @RequiredArgsConstructor
 class TeamController {
     private final TeamFacade teamFacade;
+    private final TeamQueryRepository teamQueryRepository;
     private final UserFacade userFacade;
 
     @GetMapping
-    public ResponseEntity<List<TeamDto>> findAll() {
-        List<TeamDto> teams = teamFacade.getAllTeams();
+    public ResponseEntity<List<TeamShortDto>> findAll() {
+        List<TeamShortDto> teams = teamQueryRepository.findAllBy();
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @Transactional
-    public ResponseEntity<TeamDto> findById(@PathVariable long id) {
-        try {
-            TeamDto team = teamFacade.getTeamWithId(id);
-            return new ResponseEntity<>(team, HttpStatus.OK);
-        } catch (TeamNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<TeamFullDto> findById(@PathVariable long id) {
+        Optional<TeamFullDto> teamFullDto = teamQueryRepository.findDtoById(id);
+        return teamFullDto
+                .map(fullDto -> new ResponseEntity<>(fullDto, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> createTeam(@RequestBody TeamDto teamDto, UriComponentsBuilder uriComponentsBuilder) {
         try {
             long createdTeamId = teamFacade.createTeamAndReturnItsId(teamDto);
@@ -61,10 +63,11 @@ class TeamController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TeamDto> updateTeam(@PathVariable long id, @RequestBody TeamDto teamDto) {
+    @Transactional
+    public ResponseEntity<TeamFullDto> updateTeam(@PathVariable long id, @RequestBody TeamDto teamDto) {
         try {
             teamFacade.updateTeamWithId(id, teamDto);
-            TeamDto updatedTeam = teamFacade.getTeamWithId(id);
+            TeamFullDto updatedTeam = teamQueryRepository.findDtoById(id).get();
             return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
         } catch (TeamNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -96,6 +99,7 @@ class TeamController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteTeam(@PathVariable long id) {
         try {
             teamFacade.deleteTeamWithId(id);
