@@ -21,4 +21,9 @@ class UserConfiguration {
         factory.setMessageConverter(new Jackson2JsonMessageConverter());
         return factory;
     }
+
+    @Bean
+    public Queue queue() {
+        return new Queue("taskmanager");
+    }
 }
