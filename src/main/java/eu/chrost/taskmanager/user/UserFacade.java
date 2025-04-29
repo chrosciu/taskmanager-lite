@@ -8,8 +8,6 @@ import eu.chrost.taskmanager.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
@@ -18,45 +16,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class UserFacade {
     private final UserRepository userRepository;
-
-    public List<UserDto> getAllUsers() {
-        List<UserDto> usersDtos = new ArrayList<>();
-
-        for (User user : userRepository.findAll()) {
-            UserDto userDto = new UserDto();
-            userDto.setId(user.getId());
-            userDto.setFirstName(user.getUserName().getFirstName());
-            userDto.setLastName(user.getUserName().getLastName());
-            userDto.setLogin(user.getLogin());
-            userDto.setPassword(user.getPassword());
-
-            UserRole userRole = user.getUserRole();
-            if (userRole != null) {
-                userDto.setUserRole(userRole.name());
-            }
-
-            usersDtos.add(userDto);
-        }
-        return usersDtos;
-    }
-
-    public UserDto getUserWithId(long id) throws UserNotFoundException {
-        User user = getUserById(id);
-
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setFirstName(user.getUserName().getFirstName());
-        userDto.setLastName(user.getUserName().getLastName());
-        userDto.setLogin(user.getLogin());
-        userDto.setPassword(user.getPassword());
-        userDto.setTeamIds(user.getTeams().stream().map(SimpleTeamQueryEntity::getId).collect(toList()));
-
-        UserRole userRole = user.getUserRole();
-        if (userRole != null) {
-            userDto.setUserRole(userRole.name());
-        }
-        return userDto;
-    }
+    private final UserQueryRepository userQueryRepository;
 
     public long createNewUserAndReturnItsId(UserDto userDto) throws UserAlreadyExistsException {
         if (exists(userDto)) {
@@ -130,6 +90,6 @@ public class UserFacade {
     }
 
     private boolean exists(UserDto userDto) {
-        return userRepository.existsByUserNameFirstNameAndUserNameLastName(userDto.getFirstName(), userDto.getLastName());
+        return userQueryRepository.existsByUserNameFirstNameAndUserNameLastName(userDto.getFirstName(), userDto.getLastName());
     }
 }
