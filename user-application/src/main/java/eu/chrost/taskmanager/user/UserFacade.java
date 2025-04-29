@@ -1,7 +1,6 @@
 package eu.chrost.taskmanager.user;
 
 
-import eu.chrost.taskmanager.common.TeamMembersDto;
 import eu.chrost.taskmanager.common.event.TeamMembersEvent;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
@@ -61,6 +60,7 @@ public class UserFacade {
     public void handle(TeamMembersEvent teamMembersEvent) throws UserNotFoundException {
         switch (teamMembersEvent.getType()) {
             case MEMBERS_ADDED -> addTeamToUsersTeams(teamMembersEvent.getTeamId(), teamMembersEvent.getUserIds());
+            case MEMBERS_REMOVED -> removeTeamFromUsersTeams(teamMembersEvent.getTeamId(), teamMembersEvent.getUserIds());
         }
     }
 
@@ -73,8 +73,8 @@ public class UserFacade {
         }
     }
 
-    public void removeTeamFromUsersTeams(TeamMembersDto teamMembersDto, long teamId) throws UserNotFoundException {
-        for (long userId : teamMembersDto.getUserIds()) {
+    private void removeTeamFromUsersTeams(long teamId, List<Long> userIds) throws UserNotFoundException {
+        for (long userId : userIds) {
             User user = getUserById(userId);
             SimpleTeam team = new SimpleTeam(teamId);
             user.removeFrom(team);

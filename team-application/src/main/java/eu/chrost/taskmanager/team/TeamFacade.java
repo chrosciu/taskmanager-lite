@@ -1,9 +1,9 @@
 package eu.chrost.taskmanager.team;
 
 import eu.chrost.taskmanager.common.event.EventPublisher;
-import eu.chrost.taskmanager.common.TeamMembersDto;
 import eu.chrost.taskmanager.common.event.TeamMembersEvent;
 import eu.chrost.taskmanager.team.dto.TeamDto;
+import eu.chrost.taskmanager.team.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +70,9 @@ public class TeamFacade {
             team.removeMember(user);
         }
         teamRepository.save(team);
+        TeamMembersEvent teamMembersEvent =
+                new TeamMembersEvent(TeamMembersEvent.Type.MEMBERS_REMOVED, teamId, teamMembersDto.getUserIds());
+        eventPublisher.publish(teamMembersEvent);
     }
 
     private Team getTeamById(long id) {
