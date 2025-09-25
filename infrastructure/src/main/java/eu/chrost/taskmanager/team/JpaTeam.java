@@ -1,6 +1,5 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.common.SimpleEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,7 +55,7 @@ class JpaTeam {
         team.setName(name);
         team.setCodename(codename);
         team.setDescription(description);
-        team.setMembers(members.stream().map(u -> new SimpleEntity(u.getId())).collect(Collectors.toCollection(ArrayList::new)));
+        team.setMembers(members.stream().map(u -> new TeamUser(u.getId())).collect(Collectors.toCollection(ArrayList::new)));
         return team;
     }
 }
