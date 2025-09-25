@@ -26,22 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>eu.chrost</groupId>
-            <artifactId>team-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.chrost</groupId>
-            <artifactId>team-application</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.chrost</groupId>
-            <artifactId>user-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.chrost</groupId>
-            <artifactId>user-application</artifactId>
+            <artifactId>domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

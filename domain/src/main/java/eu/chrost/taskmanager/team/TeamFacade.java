@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.team;
 
-import eu.chrost.taskmanager.commons.SimpleEntity;
-import eu.chrost.taskmanager.commons.dto.TeamMembersDto;
+import eu.chrost.taskmanager.common.SimpleEntity;
+import eu.chrost.taskmanager.common.dto.TeamMembersDto;
 import eu.chrost.taskmanager.team.dto.TeamDto;
 import eu.chrost.taskmanager.team.exception.TeamAlreadyExistsException;
 import eu.chrost.taskmanager.team.exception.TeamNotFoundException;

@@ -1,7 +1,7 @@
 package eu.chrost.taskmanager.user;
 
-import eu.chrost.taskmanager.commons.SimpleEntity;
-import eu.chrost.taskmanager.commons.dto.TeamMembersDto;
+import eu.chrost.taskmanager.common.SimpleEntity;
+import eu.chrost.taskmanager.common.dto.TeamMembersDto;
 import eu.chrost.taskmanager.user.dto.UserDto;
 import eu.chrost.taskmanager.user.exception.UserAlreadyExistsException;
 import eu.chrost.taskmanager.user.exception.UserNotFoundException;

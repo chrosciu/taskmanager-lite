@@ -9,11 +9,7 @@
   <name>taskmanager-lite</name>
   <description>Task Manager (lite version)</description>
   <modules>
-    <module>commons</module>
-    <module>team-domain</module>
-    <module>user-domain</module>
-    <module>team-application</module>
-    <module>user-application</module>
+    <module>domain</module>
     <module>infrastructure</module>
     <module>monolith</module>
   </modules>
